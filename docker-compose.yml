@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
@@ -8,8 +6,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: modulo_restaurante
-      MYSQL_USER: root
-      MYSQL_PASSWORD:
     ports:
       - "3307:3306"
     volumes:
@@ -23,14 +19,16 @@ services:
       PMA_HOST: mysql
       PMA_PORT: 3306
       PMA_USER: root
-      PMA_PASSWORD:
+      PMA_PASSWORD: root
     ports:
       - "8081:80"
     depends_on:
       - mysql
 
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: restaurante_sena
     restart: always
     depends_on:
@@ -40,4 +38,4 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/modulo_restaurante?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=America/Bogota
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD:
+      SPRING_DATASOURCE_PASSWORD: root
