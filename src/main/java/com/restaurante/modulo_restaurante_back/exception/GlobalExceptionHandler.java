@@ -48,9 +48,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGeneric(Exception ex) {
 
+        ex.printStackTrace(); // 👈 CLAVE
+
         ApiError error = new ApiError(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Error interno del servidor"
+                ex.getMessage()
         );
 
         return ResponseEntity
