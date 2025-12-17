@@ -64,14 +64,26 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional(readOnly = true)
     public Pedido obtenerPedidoPorId(Long idPedido){
-        return pedidoRepository.findById(idPedido)
+
+        Pedido pedido = pedidoRepository.findById(idPedido)
                 .orElseThrow(() -> new IllegalArgumentException("Pedido no encontrado"));
+
+        // 🔥 Inicializar detalles
+        pedido.getDetalles().size();
+
+        return pedido;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Pedido> listarPedidos(){
-        return pedidoRepository.findAll();
+    public List<Pedido> listarPedidos() {
+
+        List<Pedido> pedidos = pedidoRepository.findAll();
+
+        // 🔥 Inicializa la relación LAZY
+        pedidos.forEach(p -> p.getDetalles().size());
+
+        return pedidos;
     }
 
     @Override
